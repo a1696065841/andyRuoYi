@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PtCaseCategoryMapper">
+    
+    <resultMap type="PtCaseCategory" id="PtCaseCategoryResult">
+        <result property="caseCategoryId"    column="case_category_id"    />
+        <result property="caseId"    column="case_id"    />
+        <result property="categoryId"    column="category_id"    />
+    </resultMap>
+
+    <sql id="selectPtCaseCategoryVo">
+        select case_category_id, case_id, category_id from pt_case_category
+    </sql>
+
+    <select id="selectPtCaseCategoryList" parameterType="PtCaseCategory" resultMap="PtCaseCategoryResult">
+        <include refid="selectPtCaseCategoryVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectPtCaseCategoryByCaseCategoryId" parameterType="Long" resultMap="PtCaseCategoryResult">
+        <include refid="selectPtCaseCategoryVo"/>
+        where case_category_id = #{caseCategoryId}
+    </select>
+        
+    <insert id="insertPtCaseCategory" parameterType="PtCaseCategory">
+        insert into pt_case_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseCategoryId != null">case_category_id,</if>
+            <if test="caseId != null">case_id,</if>
+            <if test="categoryId != null">category_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="caseCategoryId != null">#{caseCategoryId},</if>
+            <if test="caseId != null">#{caseId},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePtCaseCategory" parameterType="PtCaseCategory">
+        update pt_case_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="caseId != null">case_id = #{caseId},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+        </trim>
+        where case_category_id = #{caseCategoryId}
+    </update>
+
+    <delete id="deletePtCaseCategoryByCaseCategoryId" parameterType="Long">
+        delete from pt_case_category where case_category_id = #{caseCategoryId}
+    </delete>
+
+    <delete id="deletePtCaseCategoryByCaseCategoryIds" parameterType="String">
+        delete from pt_case_category where case_category_id in 
+        <foreach item="caseCategoryId" collection="array" open="(" separator="," close=")">
+            #{caseCategoryId}
+        </foreach>
+    </delete>
+
+</mapper>

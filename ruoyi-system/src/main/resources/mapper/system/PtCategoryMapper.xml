@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PtCategoryMapper">
+    
+    <resultMap type="PtCategory" id="PtCategoryResult">
+        <result property="cid"    column="cid"    />
+        <result property="parentid"    column="parentid"    />
+        <result property="levels"    column="levels"    />
+        <result property="names"    column="names"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+
+    <sql id="selectPtCategoryVo">
+        select cid, parentid, levels, `names`, sort from pt_category
+    </sql>
+
+    <select id="selectPtCategoryList" parameterType="PtCategory" resultMap="PtCategoryResult">
+        <include refid="selectPtCategoryVo"/>
+        <where>  
+            <if test="parentid != null  and parentid != ''"> and parentid = #{parentid}</if>
+            <if test="levels != null "> and levels = #{levels}</if>
+            <if test="names != null  and names != ''"> and `names` = #{names}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+        </where>
+    </select>
+    
+    <select id="selectPtCategoryByCid" parameterType="Long" resultMap="PtCategoryResult">
+        <include refid="selectPtCategoryVo"/>
+        where cid = #{cid}
+    </select>
+        
+    <insert id="insertPtCategory" parameterType="PtCategory">
+        insert into pt_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cid != null">cid,</if>
+            <if test="parentid != null">parentid,</if>
+            <if test="levels != null">levels,</if>
+            <if test="names != null">`names`,</if>
+            <if test="sort != null">sort,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cid != null">#{cid},</if>
+            <if test="parentid != null">#{parentid},</if>
+            <if test="levels != null">#{levels},</if>
+            <if test="names != null">#{names},</if>
+            <if test="sort != null">#{sort},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePtCategory" parameterType="PtCategory">
+        update pt_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentid != null">parentid = #{parentid},</if>
+            <if test="levels != null">levels = #{levels},</if>
+            <if test="names != null">`names` = #{names},</if>
+            <if test="sort != null">sort = #{sort},</if>
+        </trim>
+        where cid = #{cid}
+    </update>
+
+    <delete id="deletePtCategoryByCid" parameterType="Long">
+        delete from pt_category where cid = #{cid}
+    </delete>
+
+    <delete id="deletePtCategoryByCids" parameterType="String">
+        delete from pt_category where cid in 
+        <foreach item="cid" collection="array" open="(" separator="," close=")">
+            #{cid}
+        </foreach>
+    </delete>
+
+</mapper>
