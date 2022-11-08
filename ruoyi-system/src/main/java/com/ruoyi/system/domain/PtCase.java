@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.List;
+
 /**
  * 【请填写功能名称】对象 pt_case
  * 
@@ -28,8 +30,17 @@ public class PtCase extends BaseEntity
     private String picInfo;
 
     /** $column.columnComment */
-    private Integer caseId;
+    private Long caseId;
 
+    public List<Long> getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(List<Long> categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    private List<Long> categoryId;
     public void setName(String name) 
     {
         this.name = name;
@@ -57,12 +68,12 @@ public class PtCase extends BaseEntity
     {
         return picInfo;
     }
-    public void setCaseId(Integer caseId) 
+    public void setCaseId(Long caseId) 
     {
         this.caseId = caseId;
     }
 
-    public Integer getCaseId() 
+    public Long getCaseId() 
     {
         return caseId;
     }
