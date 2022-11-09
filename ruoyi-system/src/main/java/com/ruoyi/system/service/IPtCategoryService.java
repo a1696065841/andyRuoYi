@@ -58,4 +58,6 @@ public interface IPtCategoryService
      * @return 结果
      */
     public int deletePtCategoryByCid(Long cid);
+
+    public List<PtCategory> selectPtCategoryByPid(PtCategory ptCategory);
 }

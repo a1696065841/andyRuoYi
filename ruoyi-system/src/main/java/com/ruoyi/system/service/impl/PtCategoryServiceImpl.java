@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.utils.uuid.UIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.PtCategoryMapper;
@@ -32,6 +34,11 @@ public class PtCategoryServiceImpl implements IPtCategoryService
         return ptCategoryMapper.selectPtCategoryByCid(cid);
     }
 
+    public List<PtCategory> selectPtCategoryByPid(PtCategory ptCategory)
+    {
+        return ptCategoryMapper.selectPtCategoryList(ptCategory);
+    }
+
     /**
      * 查询【请填写功能名称】列表
      * 
@@ -53,6 +60,7 @@ public class PtCategoryServiceImpl implements IPtCategoryService
     @Override
     public int insertPtCategory(PtCategory ptCategory)
     {
+        ptCategory.setCid(UIDUtil.nextId());
         return ptCategoryMapper.insertPtCategory(ptCategory);
     }
 

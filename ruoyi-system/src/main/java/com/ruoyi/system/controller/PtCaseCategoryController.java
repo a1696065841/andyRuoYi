@@ -44,7 +44,6 @@ public class PtCaseCategoryController extends BaseController
     /**
      * 查询【请填写功能名称】列表
      */
-    @RequiresPermissions("system:category:list")
     @PostMapping("/list")
     @ResponseBody
     public TableDataInfo list(PtCaseCategory ptCaseCategory)
@@ -57,7 +56,6 @@ public class PtCaseCategoryController extends BaseController
     /**
      * 导出【请填写功能名称】列表
      */
-    @RequiresPermissions("system:category:export")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
@@ -80,7 +78,6 @@ public class PtCaseCategoryController extends BaseController
     /**
      * 新增保存【请填写功能名称】
      */
-    @RequiresPermissions("system:category:add")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
@@ -92,7 +89,6 @@ public class PtCaseCategoryController extends BaseController
     /**
      * 修改【请填写功能名称】
      */
-    @RequiresPermissions("system:category:edit")
     @GetMapping("/edit/{caseCategoryId}")
     public String edit(@PathVariable("caseCategoryId") Long caseCategoryId, ModelMap mmap)
     {
@@ -104,7 +100,6 @@ public class PtCaseCategoryController extends BaseController
     /**
      * 修改保存【请填写功能名称】
      */
-    @RequiresPermissions("system:category:edit")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
@@ -116,7 +111,6 @@ public class PtCaseCategoryController extends BaseController
     /**
      * 删除【请填写功能名称】
      */
-    @RequiresPermissions("system:category:remove")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody

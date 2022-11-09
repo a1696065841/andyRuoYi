@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.utils.uuid.UIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.PtCaseCategoryMapper;
@@ -53,6 +55,7 @@ public class PtCaseCategoryServiceImpl implements IPtCaseCategoryService
     @Override
     public int insertPtCaseCategory(PtCaseCategory ptCaseCategory)
     {
+        ptCaseCategory.setCaseCategoryId(UIDUtil.nextId());
         return ptCaseCategoryMapper.insertPtCaseCategory(ptCaseCategory);
     }
 

@@ -5,11 +5,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.system.domain.PtCase;
@@ -34,7 +30,6 @@ public class PtCaseController extends BaseController
     @Autowired
     private IPtCaseService ptCaseService;
 
-    @RequiresPermissions("system:case:view")
     @GetMapping()
     public String caseView()
     {
@@ -44,10 +39,9 @@ public class PtCaseController extends BaseController
     /**
      * 查询【请填写功能名称】列表
      */
-    @RequiresPermissions("system:case:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(PtCase ptCase)
+    public TableDataInfo list(@RequestBody(required = false) PtCase ptCase)
     {
         startPage();
         List<PtCase> list = ptCaseService.selectPtCaseList(ptCase);
@@ -57,7 +51,6 @@ public class PtCaseController extends BaseController
     /**
      * 导出【请填写功能名称】列表
      */
-    @RequiresPermissions("system:case:export")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
@@ -80,11 +73,10 @@ public class PtCaseController extends BaseController
     /**
      * 新增保存【请填写功能名称】
      */
-    @RequiresPermissions("system:case:add")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(PtCase ptCase)
+    public AjaxResult addSave(@RequestBody(required = false) PtCase ptCase)
     {
         return toAjax(ptCaseService.insertPtCase(ptCase));
     }
@@ -92,7 +84,6 @@ public class PtCaseController extends BaseController
     /**
      * 修改【请填写功能名称】
      */
-    @RequiresPermissions("system:case:edit")
     @GetMapping("/edit/{caseId}")
     public String edit(@PathVariable("caseId") Integer caseId, ModelMap mmap)
     {
@@ -100,15 +91,20 @@ public class PtCaseController extends BaseController
         mmap.put("ptCase", ptCase);
         return prefix + "/edit";
     }
+    @PostMapping("/selectPtCaseByCaseId")
+    @ResponseBody
+    public AjaxResult selectPtCaseByCaseId(@RequestBody(required = false) PtCase ptCase  )
+    {
+        return AjaxResult.success(ptCaseService.selectPtCaseByCaseId(Long.bitCount(ptCase.getCaseId())));
+    }
 
     /**
      * 修改保存【请填写功能名称】
      */
-    @RequiresPermissions("system:case:edit")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(PtCase ptCase)
+    public AjaxResult editSave(@RequestBody(required = false) PtCase ptCase)
     {
         return toAjax(ptCaseService.updatePtCase(ptCase));
     }
@@ -116,7 +112,6 @@ public class PtCaseController extends BaseController
     /**
      * 删除【请填写功能名称】
      */
-    @RequiresPermissions("system:case:remove")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody

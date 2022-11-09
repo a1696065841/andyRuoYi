@@ -25,9 +25,9 @@
             <if test="describe != null  and describe != ''">and `describe` = #{describe}</if>
             <if test="picInfo != null  and picInfo != ''">and picInfo = #{picInfo}</if>
             <if test="categoryId != null  and categoryId != ''">
-            cc.category_id in
-            <foreach item="categoryId" collection="list" open="(" separator="," close=")">
-                #{category_id}
+            and cc.category_id in
+            <foreach item="item" collection="categoryId" open="(" separator="," close=")">
+                #{item}
             </foreach>
             </if>
             <if test="picInfo != null  and picInfo != ''">and picInfo = #{picInfo}</if>

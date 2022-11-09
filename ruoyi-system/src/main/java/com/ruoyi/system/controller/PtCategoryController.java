@@ -1,15 +1,13 @@
 package com.ruoyi.system.controller;
 
 import java.util.List;
+
+import com.ruoyi.common.utils.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.system.domain.PtCategory;
@@ -34,7 +32,6 @@ public class PtCategoryController extends BaseController
     @Autowired
     private IPtCategoryService ptCategoryService;
 
-    @RequiresPermissions("system:category:view")
     @GetMapping()
     public String category()
     {
@@ -44,20 +41,37 @@ public class PtCategoryController extends BaseController
     /**
      * 查询【请填写功能名称】列表
      */
-    @RequiresPermissions("system:category:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(PtCategory ptCategory)
+    public TableDataInfo list(@RequestBody PtCategory ptCategory)
     {
         startPage();
         List<PtCategory> list = ptCategoryService.selectPtCategoryList(ptCategory);
         return getDataTable(list);
     }
-
+    /**
+     * 查询【请填写功能名称】列表
+     */
+    @PostMapping("/selectPtCategoryByPid")
+    @ResponseBody
+    public TableDataInfo selectPtCategoryByPid(@RequestBody PtCategory ptCategory)
+    {
+        if (StringUtils.isEmpty(ptCategory.getParentid())){
+            throw new RuntimeException("请填写parentid");
+        }
+        startPage();
+        List<PtCategory> list = ptCategoryService.selectPtCategoryByPid(ptCategory);
+        return getDataTable(list);
+    }
+    @PostMapping("/selectPtCategoryByCid")
+    @ResponseBody
+    public AjaxResult selectPtCategoryByCid(@RequestBody PtCategory ptCategory )
+    {
+        return AjaxResult.success(ptCategoryService.selectPtCategoryByCid(ptCategory.getCid()));
+    }
     /**
      * 导出【请填写功能名称】列表
      */
-    @RequiresPermissions("system:category:export")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ResponseBody
@@ -80,11 +94,10 @@ public class PtCategoryController extends BaseController
     /**
      * 新增保存【请填写功能名称】
      */
-    @RequiresPermissions("system:category:add")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
-    public AjaxResult addSave(PtCategory ptCategory)
+    public AjaxResult addSave(@RequestBody PtCategory ptCategory)
     {
         return toAjax(ptCategoryService.insertPtCategory(ptCategory));
     }
@@ -92,7 +105,6 @@ public class PtCategoryController extends BaseController
     /**
      * 修改【请填写功能名称】
      */
-    @RequiresPermissions("system:category:edit")
     @GetMapping("/edit/{cid}")
     public String edit(@PathVariable("cid") Long cid, ModelMap mmap)
     {
@@ -104,11 +116,10 @@ public class PtCategoryController extends BaseController
     /**
      * 修改保存【请填写功能名称】
      */
-    @RequiresPermissions("system:category:edit")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(PtCategory ptCategory)
+    public AjaxResult editSave(@RequestBody PtCategory ptCategory)
     {
         return toAjax(ptCategoryService.updatePtCategory(ptCategory));
     }
@@ -116,7 +127,6 @@ public class PtCategoryController extends BaseController
     /**
      * 删除【请填写功能名称】
      */
-    @RequiresPermissions("system:category:remove")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody

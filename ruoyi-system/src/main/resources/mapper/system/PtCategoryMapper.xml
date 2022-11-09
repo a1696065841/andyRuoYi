@@ -30,7 +30,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectPtCategoryVo"/>
         where cid = #{cid}
     </select>
-        
+
+
     <insert id="insertPtCategory" parameterType="PtCategory">
         insert into pt_category
         <trim prefix="(" suffix=")" suffixOverrides=",">
