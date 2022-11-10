@@ -87,6 +87,11 @@ public class PtCaseCategoryServiceImpl implements IPtCaseCategoryService
         return ptCaseCategoryMapper.deleteByCaseId(caseId);
     }
 
+    @Override
+    public int deleteByCid(Long categoryId) {
+        return ptCaseCategoryMapper.deleteByCid(categoryId);
+    }
+
     /**
      * 删除【请填写功能名称】信息
      * 

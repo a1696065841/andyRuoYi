@@ -51,6 +51,7 @@ public interface IPtCaseCategoryService
      */
     public int deletePtCaseCategoryByCaseCategoryIds(String caseCategoryIds);
     public int deleteByCaseId(Long caseId);
+    public int deleteByCid(Long categoryId);
     /**
      * 删除【请填写功能名称】信息
      * 

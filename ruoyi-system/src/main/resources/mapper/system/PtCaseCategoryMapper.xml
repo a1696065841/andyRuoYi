@@ -16,7 +16,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectPtCaseCategoryList" parameterType="PtCaseCategory" resultMap="PtCaseCategoryResult">
         <include refid="selectPtCaseCategoryVo"/>
-        <where>  
+        <where>
+            case_id = #{caseId}
         </where>
     </select>
     
@@ -54,6 +55,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <delete id="deleteByCaseId" parameterType="Long">
         delete from pt_case_category where case_id = #{caseId}
+    </delete>
+    <delete id="deleteByCid" parameterType="Long">
+        delete from pt_case_category where case_id = #{categoryId}
     </delete>
 
     <delete id="deletePtCaseCategoryByCaseCategoryIds" parameterType="String">

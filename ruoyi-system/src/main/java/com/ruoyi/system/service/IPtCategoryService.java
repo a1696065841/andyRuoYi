@@ -51,13 +51,6 @@ public interface IPtCategoryService
      */
     public int deletePtCategoryByCids(String cids);
 
-    /**
-     * 删除【请填写功能名称】信息
-     * 
-     * @param cid 【请填写功能名称】主键
-     * @return 结果
-     */
-    public int deletePtCategoryByCid(Long cid);
 
     public List<PtCategory> selectPtCategoryByPid(PtCategory ptCategory);
 }

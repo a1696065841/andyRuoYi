@@ -52,6 +52,8 @@ public interface PtCaseCategoryMapper
     public int deletePtCaseCategoryByCaseCategoryId(Long caseCategoryId);
     public int deleteByCaseId(Long caseId);
 
+    public int deleteByCid(Long categoryId);
+
     /**
      * 批量删除【请填写功能名称】
      * 

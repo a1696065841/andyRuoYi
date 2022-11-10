@@ -41,6 +41,9 @@ public class PtCaseServiceImpl implements IPtCaseService {
         List<PtCaseCategory> ptCaseCategories = ptCaseCategoryService.selectPtCaseCategoryList(ptCaseCategory);
         List<Long> collect = ptCaseCategories.stream().map(PtCaseCategory::getCategoryId).collect(Collectors.toList());
         PtCase ptCase2 = ptCaseMapper.selectPtCaseByCaseId(ptCase.getCaseId());
+        if (ptCase2==null){
+            return null;
+        }
         ptCase2.setCategoryId(collect);
         return ptCase2;
     }
@@ -96,7 +99,6 @@ public class PtCaseServiceImpl implements IPtCaseService {
     }
 
     public void insertPtCaseCategory(PtCase ptCase) {
-        ptCaseCategoryService.deleteByCaseId(ptCase.getCaseId());
         for (Long aLong : ptCase.getCategoryId()) {
             PtCaseCategory ptCaseCategory = new PtCaseCategory();
             ptCaseCategory.setCaseId(ptCase.getCaseId());
@@ -113,6 +115,9 @@ public class PtCaseServiceImpl implements IPtCaseService {
      */
     @Override
     public int deletePtCaseByCaseIds(String caseIds) {
+        for (String s : Convert.toStrArray(caseIds)) {
+            ptCaseCategoryService.deleteByCaseId(Long.getLong(s));
+        }
         return ptCaseMapper.deletePtCaseByCaseIds(Convert.toStrArray(caseIds));
     }
 
