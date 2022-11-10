@@ -82,7 +82,7 @@ public class PtCategoryServiceImpl implements IPtCategoryService {
     @Override
     public int deletePtCategoryByCids(String cids) {
         for (String s : Convert.toStrArray(cids)) {
-            ptCaseCategoryMapper.deleteByCid(Long.getLong(s));
+            ptCaseCategoryMapper.deleteByCid(Long.parseLong(s));
         }
         return ptCategoryMapper.deletePtCategoryByCids(Convert.toStrArray(cids));
     }

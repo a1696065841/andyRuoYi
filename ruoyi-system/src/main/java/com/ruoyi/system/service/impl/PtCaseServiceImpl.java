@@ -116,7 +116,7 @@ public class PtCaseServiceImpl implements IPtCaseService {
     @Override
     public int deletePtCaseByCaseIds(String caseIds) {
         for (String s : Convert.toStrArray(caseIds)) {
-            ptCaseCategoryService.deleteByCaseId(Long.getLong(s));
+            ptCaseCategoryService.deleteByCaseId(Long.parseLong(s));
         }
         return ptCaseMapper.deletePtCaseByCaseIds(Convert.toStrArray(caseIds));
     }

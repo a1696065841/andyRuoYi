@@ -57,7 +57,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from pt_case_category where case_id = #{caseId}
     </delete>
     <delete id="deleteByCid" parameterType="Long">
-        delete from pt_case_category where case_id = #{categoryId}
+        delete from pt_case_category where category_id = #{categoryId}
     </delete>
 
     <delete id="deletePtCaseCategoryByCaseCategoryIds" parameterType="String">
