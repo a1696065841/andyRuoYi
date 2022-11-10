@@ -35,14 +35,14 @@ public class PtCaseServiceImpl implements IPtCaseService {
      * @return 【请填写功能名称】
      */
     @Override
-    public PtCase selectPtCaseByCaseId(Integer caseId) {
+    public PtCase selectPtCaseByCaseId(PtCase ptCase) {
         PtCaseCategory ptCaseCategory = new PtCaseCategory();
-        ptCaseCategory.setCaseId(Integer.toUnsignedLong(caseId));
+        ptCaseCategory.setCaseId(ptCase.getCaseId());
         List<PtCaseCategory> ptCaseCategories = ptCaseCategoryService.selectPtCaseCategoryList(ptCaseCategory);
         List<Long> collect = ptCaseCategories.stream().map(PtCaseCategory::getCategoryId).collect(Collectors.toList());
-        PtCase ptCase = ptCaseMapper.selectPtCaseByCaseId(caseId);
-        ptCase.setCategoryId(collect);
-        return ptCase;
+        PtCase ptCase2 = ptCaseMapper.selectPtCaseByCaseId(ptCase.getCaseId());
+        ptCase2.setCategoryId(collect);
+        return ptCase2;
     }
 
     /**
@@ -53,7 +53,15 @@ public class PtCaseServiceImpl implements IPtCaseService {
      */
     @Override
     public List<PtCase> selectPtCaseList(PtCase ptCase) {
-        return ptCaseMapper.selectPtCaseList(ptCase);
+        List<PtCase> ptCases = ptCaseMapper.selectPtCaseList(ptCase);
+        for (PtCase aCase : ptCases) {
+            PtCaseCategory ptCaseCategory = new PtCaseCategory();
+            ptCaseCategory.setCaseId(aCase.getCaseId());
+            List<PtCaseCategory> ptCaseCategories = ptCaseCategoryService.selectPtCaseCategoryList(ptCaseCategory);
+            List<Long> collect = ptCaseCategories.stream().map(PtCaseCategory::getCategoryId).collect(Collectors.toList());
+            aCase.setCategoryId(collect);
+        }
+        return ptCases;
     }
 
     /**
@@ -67,12 +75,7 @@ public class PtCaseServiceImpl implements IPtCaseService {
 
         ptCase.setCaseId(UIDUtil.nextId());
         int i = ptCaseMapper.insertPtCase(ptCase);
-        for (Long aLong : ptCase.getCategoryId()) {
-            PtCaseCategory ptCaseCategory = new PtCaseCategory();
-            ptCaseCategory.setCaseId(ptCase.getCaseId());
-            ptCaseCategory.setCategoryId(aLong);
-            ptCaseCategoryService.insertPtCaseCategory(ptCaseCategory);
-        }
+        insertPtCaseCategory(ptCase);
         return i;
     }
 
@@ -84,7 +87,22 @@ public class PtCaseServiceImpl implements IPtCaseService {
      */
     @Override
     public int updatePtCase(PtCase ptCase) {
+        if (ptCase.getCategoryId() != null) {
+            ptCaseCategoryService.deleteByCaseId(ptCase.getCaseId());
+            insertPtCaseCategory(ptCase);
+        }
+
         return ptCaseMapper.updatePtCase(ptCase);
+    }
+
+    public void insertPtCaseCategory(PtCase ptCase) {
+        ptCaseCategoryService.deleteByCaseId(ptCase.getCaseId());
+        for (Long aLong : ptCase.getCategoryId()) {
+            PtCaseCategory ptCaseCategory = new PtCaseCategory();
+            ptCaseCategory.setCaseId(ptCase.getCaseId());
+            ptCaseCategory.setCategoryId(aLong);
+            ptCaseCategoryService.insertPtCaseCategory(ptCaseCategory);
+        }
     }
 
     /**

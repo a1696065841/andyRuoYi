@@ -21,9 +21,7 @@
     <select id="selectPtCaseList" parameterType="PtCase" resultMap="PtCaseResult">
         <include refid="selectPtCaseVo"/>
         <where>
-            <if test="name != null  and name != ''">and `name` like concat('%', #{name}, '%')</if>
-            <if test="describe != null  and describe != ''">and `describe` = #{describe}</if>
-            <if test="picInfo != null  and picInfo != ''">and picInfo = #{picInfo}</if>
+            <if test="name != null  and name != ''">and a.`name` like concat('%', #{name}, '%')</if>
             <if test="categoryId != null  and categoryId != ''">
             and cc.category_id in
             <foreach item="item" collection="categoryId" open="(" separator="," close=")">
@@ -32,12 +30,12 @@
             </if>
             <if test="picInfo != null  and picInfo != ''">and picInfo = #{picInfo}</if>
         </where>
-
+        GROUP BY a.case_id
     </select>
 
-    <select id="selectPtCaseByCaseId" parameterType="Integer" resultMap="PtCaseResult">
+    <select id="selectPtCaseByCaseId" parameterType="Long" resultMap="PtCaseResult">
         <include refid="selectPtCaseVo"/>
-        where case_id = #{caseId}
+        where a.case_id = #{caseId} 	GROUP BY a.case_id
     </select>
 
     <insert id="insertPtCase" parameterType="PtCase">

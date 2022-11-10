@@ -50,7 +50,7 @@ public interface IPtCaseCategoryService
      * @return 结果
      */
     public int deletePtCaseCategoryByCaseCategoryIds(String caseCategoryIds);
-
+    public int deleteByCaseId(Long caseId);
     /**
      * 删除【请填写功能名称】信息
      * 

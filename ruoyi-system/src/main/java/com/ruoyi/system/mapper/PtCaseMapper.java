@@ -17,7 +17,7 @@ public interface PtCaseMapper
      * @param caseId 【请填写功能名称】主键
      * @return 【请填写功能名称】
      */
-    public PtCase selectPtCaseByCaseId(Integer caseId);
+    public PtCase selectPtCaseByCaseId(Long caseId);
 
     /**
      * 查询【请填写功能名称】列表

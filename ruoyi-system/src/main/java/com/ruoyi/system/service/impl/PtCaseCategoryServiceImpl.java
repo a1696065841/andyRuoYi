@@ -83,6 +83,10 @@ public class PtCaseCategoryServiceImpl implements IPtCaseCategoryService
         return ptCaseCategoryMapper.deletePtCaseCategoryByCaseCategoryIds(Convert.toStrArray(caseCategoryIds));
     }
 
+    public int deleteByCaseId(Long caseId) {
+        return ptCaseCategoryMapper.deleteByCaseId(caseId);
+    }
+
     /**
      * 删除【请填写功能名称】信息
      * 

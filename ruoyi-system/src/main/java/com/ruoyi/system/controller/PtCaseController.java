@@ -81,21 +81,11 @@ public class PtCaseController extends BaseController
         return toAjax(ptCaseService.insertPtCase(ptCase));
     }
 
-    /**
-     * 修改【请填写功能名称】
-     */
-    @GetMapping("/edit/{caseId}")
-    public String edit(@PathVariable("caseId") Integer caseId, ModelMap mmap)
-    {
-        PtCase ptCase = ptCaseService.selectPtCaseByCaseId(caseId);
-        mmap.put("ptCase", ptCase);
-        return prefix + "/edit";
-    }
     @PostMapping("/selectPtCaseByCaseId")
     @ResponseBody
     public AjaxResult selectPtCaseByCaseId(@RequestBody(required = false) PtCase ptCase  )
     {
-        return AjaxResult.success(ptCaseService.selectPtCaseByCaseId(Long.bitCount(ptCase.getCaseId())));
+        return AjaxResult.success(ptCaseService.selectPtCaseByCaseId(ptCase));
     }
 
     /**
