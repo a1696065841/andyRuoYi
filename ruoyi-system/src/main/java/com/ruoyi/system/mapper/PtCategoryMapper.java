@@ -58,4 +58,6 @@ public interface PtCategoryMapper
      * @return 结果
      */
     public int deletePtCategoryByCids(String[] cids);
+
+    void deleteByPid(String parentid);
 }

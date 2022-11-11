@@ -3,6 +3,7 @@ package com.ruoyi.system.controller;
 import java.util.List;
 
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.system.domain.PtCase;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -123,6 +124,17 @@ public class PtCategoryController extends BaseController
     {
         return toAjax(ptCategoryService.updatePtCategory(ptCategory));
     }
+    /**
+     * 修改保存【请填写功能名称】
+     */
+    @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
+    @PostMapping("/editBatch")
+    @ResponseBody
+    public AjaxResult editBatch(@RequestBody List<PtCategory> ptCategory)
+    {
+        ptCategoryService.editBatch(ptCategory);
+        return toAjax(1);
+    }
 
     /**
      * 删除【请填写功能名称】
@@ -133,5 +145,19 @@ public class PtCategoryController extends BaseController
     public AjaxResult remove(String ids)
     {
         return toAjax(ptCategoryService.deletePtCategoryByCids(ids));
+    }
+
+
+    @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
+    @PostMapping("/addBatch")
+    @ResponseBody
+    public AjaxResult addBatch(@RequestBody List<PtCategory> ptCategorys)
+    {
+        PtCategory ptCategory1 = ptCategorys.get(0);
+        ptCategoryService.insertPtCategory(ptCategory1);
+        for (PtCategory aCase : ptCategorys) {
+            ptCategoryService.insertPtCategory(aCase);
+        }
+        return toAjax(1);
     }
 }

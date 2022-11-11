@@ -86,5 +86,10 @@ public class PtCategoryServiceImpl implements IPtCategoryService {
         }
         return ptCategoryMapper.deletePtCategoryByCids(Convert.toStrArray(cids));
     }
-
+    public void editBatch(List<PtCategory> ptCategory){
+        ptCategoryMapper.deleteByPid(ptCategory.get(0).getParentid());
+        for (PtCategory category : ptCategory) {
+            insertPtCategory(category);
+        }
+    }
 }

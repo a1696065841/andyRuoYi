@@ -64,6 +64,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="deletePtCategoryByCid" parameterType="Long">
         delete from pt_category where cid = #{cid}
     </delete>
+    <delete id="deleteByPid" parameterType="String">
+        delete from pt_category where parentid = #{parentid}
+    </delete>
 
     <delete id="deletePtCategoryByCids" parameterType="String">
         delete from pt_category where cid in 
