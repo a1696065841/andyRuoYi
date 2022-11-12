@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.List;
+
 /**
  * 【请填写功能名称】对象 pt_category
  * 
@@ -29,6 +31,16 @@ public class PtCategory extends BaseEntity
     /** 名称 */
     @Excel(name = "名称")
     private String names;
+
+    List<String> childName;
+
+    public List<String> getChildName() {
+        return childName;
+    }
+
+    public void setChildName(List<String> childName) {
+        this.childName = childName;
+    }
 
     /** 人工排序值 */
     @Excel(name = "人工排序值")

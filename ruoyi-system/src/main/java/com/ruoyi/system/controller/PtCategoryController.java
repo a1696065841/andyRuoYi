@@ -3,6 +3,7 @@ package com.ruoyi.system.controller;
 import java.util.List;
 
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.uuid.UIDUtil;
 import com.ruoyi.system.domain.PtCase;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,7 +131,7 @@ public class PtCategoryController extends BaseController
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PostMapping("/editBatch")
     @ResponseBody
-    public AjaxResult editBatch(@RequestBody List<PtCategory> ptCategory)
+    public AjaxResult editBatch(@RequestBody PtCategory ptCategory)
     {
         ptCategoryService.editBatch(ptCategory);
         return toAjax(1);
@@ -151,13 +152,22 @@ public class PtCategoryController extends BaseController
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping("/addBatch")
     @ResponseBody
-    public AjaxResult addBatch(@RequestBody List<PtCategory> ptCategorys)
+    public AjaxResult addBatch(@RequestBody PtCategory ptCategorys)
     {
-        PtCategory ptCategory1 = ptCategorys.get(0);
-        ptCategoryService.insertPtCategory(ptCategory1);
-        for (PtCategory aCase : ptCategorys) {
-            ptCategoryService.insertPtCategory(aCase);
+        long l = UIDUtil.nextId();
+        ptCategorys.setCid(l);
+        ptCategoryService.insertPtCategory(ptCategorys);
+        for (int i = 0; i < ptCategorys.getChildName().size(); i++) {
+            String s=ptCategorys.getChildName().get(i);
+            PtCategory ptCategory = new PtCategory();
+            ptCategory.setNames(s);
+            ptCategory.setLevels(1L);
+            ptCategory.setParentid(String.valueOf(l));
+            ptCategory.setSort(i);
+            ptCategoryService.insertPtCategory(ptCategory);
         }
+
+
         return toAjax(1);
     }
 }

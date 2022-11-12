@@ -58,7 +58,9 @@ public class PtCategoryServiceImpl implements IPtCategoryService {
      */
     @Override
     public int insertPtCategory(PtCategory ptCategory) {
-        ptCategory.setCid(UIDUtil.nextId());
+        if (ptCategory.getCid()==null){
+            ptCategory.setCid(UIDUtil.nextId());
+        }
         return ptCategoryMapper.insertPtCategory(ptCategory);
     }
 
@@ -86,10 +88,16 @@ public class PtCategoryServiceImpl implements IPtCategoryService {
         }
         return ptCategoryMapper.deletePtCategoryByCids(Convert.toStrArray(cids));
     }
-    public void editBatch(List<PtCategory> ptCategory){
-        ptCategoryMapper.deleteByPid(ptCategory.get(0).getParentid());
-        for (PtCategory category : ptCategory) {
-            insertPtCategory(category);
+    public void editBatch(PtCategory ptCategory){
+        ptCategoryMapper.deleteByPid(String.valueOf(ptCategory.getCid()));
+        for (int i = 0; i < ptCategory.getChildName().size(); i++) {
+            String s=ptCategory.getChildName().get(i);
+            PtCategory ptCategory2 = new PtCategory();
+            ptCategory2.setNames(s);
+            ptCategory2.setLevels(1L);
+            ptCategory2.setParentid(String.valueOf(ptCategory.getCid()));
+            ptCategory2.setSort(i);
+            insertPtCategory(ptCategory2);
         }
     }
 }

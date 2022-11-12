@@ -54,5 +54,5 @@ public interface IPtCategoryService
 
     public List<PtCategory> selectPtCategoryByPid(PtCategory ptCategory);
 
-    void editBatch(List<PtCategory> ptCategory);
+    void editBatch(PtCategory ptCategory);
 }
