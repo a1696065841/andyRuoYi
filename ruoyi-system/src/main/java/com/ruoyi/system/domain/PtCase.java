@@ -34,6 +34,15 @@ public class PtCase extends BaseEntity
     /** $column.columnComment */
     @JsonSerialize(using = ToStringSerializer.class)
     private Long caseId;
+    List<PtCategory> ptCategories;
+
+    public List<PtCategory> getPtCategories() {
+        return ptCategories;
+    }
+
+    public void setPtCategories(List<PtCategory> ptCategories) {
+        this.ptCategories = ptCategories;
+    }
 
     public List<Long> getCategoryId() {
         return categoryId;
@@ -42,7 +51,7 @@ public class PtCase extends BaseEntity
     public void setCategoryId(List<Long> categoryId) {
         this.categoryId = categoryId;
     }
-
+    @JsonSerialize(using = ToStringSerializer.class)
     private List<Long> categoryId;
     public void setName(String name) 
     {

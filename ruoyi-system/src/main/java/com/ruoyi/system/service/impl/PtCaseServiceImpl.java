@@ -1,11 +1,14 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ruoyi.common.utils.uuid.IdUtils;
 import com.ruoyi.common.utils.uuid.UIDUtil;
 import com.ruoyi.system.domain.PtCaseCategory;
+import com.ruoyi.system.domain.PtCategory;
+import com.ruoyi.system.mapper.PtCategoryMapper;
 import com.ruoyi.system.service.IPtCaseCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,8 @@ import org.springframework.util.IdGenerator;
 public class PtCaseServiceImpl implements IPtCaseService {
     @Autowired
     private PtCaseMapper ptCaseMapper;
+    @Autowired
+    private PtCategoryMapper ptCategoryMapper;
     @Autowired
     private IPtCaseCategoryService ptCaseCategoryService;
 
@@ -62,7 +67,12 @@ public class PtCaseServiceImpl implements IPtCaseService {
             ptCaseCategory.setCaseId(aCase.getCaseId());
             List<PtCaseCategory> ptCaseCategories = ptCaseCategoryService.selectPtCaseCategoryList(ptCaseCategory);
             List<Long> collect = ptCaseCategories.stream().map(PtCaseCategory::getCategoryId).collect(Collectors.toList());
+            List<PtCategory> ptCategories = new ArrayList<>();
+            for (Long aLong : collect) {
+                ptCategories.add(ptCategoryMapper.selectPtCategoryByCid(aLong));
+            }
             aCase.setCategoryId(collect);
+            aCase.setPtCategories(ptCategories);
         }
         return ptCases;
     }
