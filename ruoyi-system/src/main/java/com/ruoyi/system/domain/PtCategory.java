@@ -34,6 +34,15 @@ public class PtCategory extends BaseEntity
 
     List<String> childName;
 
+    public List<PtCategory> getChildCategory() {
+        return childCategory;
+    }
+
+    public void setChildCategory(List<PtCategory> childCategory) {
+        this.childCategory = childCategory;
+    }
+
+    List<PtCategory> childCategory;
     public List<String> getChildName() {
         return childName;
     }

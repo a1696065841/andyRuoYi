@@ -292,8 +292,8 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/logout", "logout");
         // 不需要拦截的访问
         filterChainDefinitionMap.put("/login", "anon,captchaValidate");
-        filterChainDefinitionMap.put("/tool/gen/**", "anon");
         filterChainDefinitionMap.put("/system/case/**", "anon");
+        filterChainDefinitionMap.put("/common/**", "anon");
         filterChainDefinitionMap.put("/system/caseCategory/**", "anon");
         filterChainDefinitionMap.put("/system/category/**", "anon");
         // 注册相关

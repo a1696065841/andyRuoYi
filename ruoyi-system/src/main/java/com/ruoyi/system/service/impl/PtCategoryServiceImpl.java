@@ -47,7 +47,15 @@ public class PtCategoryServiceImpl implements IPtCategoryService {
      */
     @Override
     public List<PtCategory> selectPtCategoryList(PtCategory ptCategory) {
-        return ptCategoryMapper.selectPtCategoryList(ptCategory);
+        ptCategory.setLevels(0L);
+        List<PtCategory> ptCategories = ptCategoryMapper.selectPtCategoryList(ptCategory);
+        for (PtCategory category : ptCategories) {
+            PtCategory ptCategory1 = new PtCategory();
+            ptCategory1.setParentid(category.getCid().toString());
+            List<PtCategory> ptCategories1 = ptCategoryMapper.selectPtCategoryList(ptCategory1);
+            category.setChildCategory(ptCategories1);
+        }
+        return ptCategories;
     }
 
     /**

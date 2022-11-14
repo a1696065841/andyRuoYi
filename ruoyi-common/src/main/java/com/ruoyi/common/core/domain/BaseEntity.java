@@ -35,6 +35,16 @@ public class BaseEntity implements Serializable
     /** 备注 */
     private String remark;
 
+    public String getIds() {
+        return ids;
+    }
+
+    public void setIds(String ids) {
+        this.ids = ids;
+    }
+
+    private String ids;
+
     /** 请求参数 */
     private Map<String, Object> params;
 

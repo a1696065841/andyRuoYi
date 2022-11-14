@@ -143,8 +143,10 @@ public class PtCategoryController extends BaseController
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
     @PostMapping( "/remove")
     @ResponseBody
-    public AjaxResult remove(String ids)
+    public AjaxResult remove(@RequestBody PtCategory ptCategory)
     {
+        String ids = ptCategory.getIds();
+
         return toAjax(ptCategoryService.deletePtCategoryByCids(ids));
     }
 
