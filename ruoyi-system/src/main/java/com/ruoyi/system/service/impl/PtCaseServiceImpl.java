@@ -49,7 +49,15 @@ public class PtCaseServiceImpl implements IPtCaseService {
         if (ptCase2==null){
             return null;
         }
-        ptCase2.setCategoryId(collect);
+
+        List<String> collect2 = new ArrayList<>();
+        for (Long aLong : collect) {
+            PtCategory ptCategory = ptCategoryMapper.selectPtCategoryByCid(aLong);
+            if (ptCategory!=null){
+                collect2.add(String.valueOf(aLong));
+            }
+        }
+        ptCase2.setCategoryId(collect2);
         return ptCase2;
     }
 
@@ -68,10 +76,15 @@ public class PtCaseServiceImpl implements IPtCaseService {
             List<PtCaseCategory> ptCaseCategories = ptCaseCategoryService.selectPtCaseCategoryList(ptCaseCategory);
             List<Long> collect = ptCaseCategories.stream().map(PtCaseCategory::getCategoryId).collect(Collectors.toList());
             List<PtCategory> ptCategories = new ArrayList<>();
+            List<String> collect2 = new ArrayList<>();
             for (Long aLong : collect) {
-                ptCategories.add(ptCategoryMapper.selectPtCategoryByCid(aLong));
+                PtCategory ptCategory = ptCategoryMapper.selectPtCategoryByCid(aLong);
+                if (ptCategory!=null){
+                    ptCategories.add(ptCategory);
+                    collect2.add(String.valueOf(aLong));
+                }
             }
-            aCase.setCategoryId(collect);
+            aCase.setCategoryId(collect2);
             aCase.setPtCategories(ptCategories);
         }
         return ptCases;
@@ -109,10 +122,10 @@ public class PtCaseServiceImpl implements IPtCaseService {
     }
 
     public void insertPtCaseCategory(PtCase ptCase) {
-        for (Long aLong : ptCase.getCategoryId()) {
+        for (String aLong : ptCase.getCategoryId()) {
             PtCaseCategory ptCaseCategory = new PtCaseCategory();
             ptCaseCategory.setCaseId(ptCase.getCaseId());
-            ptCaseCategory.setCategoryId(aLong);
+            ptCaseCategory.setCategoryId(Long.parseLong(aLong));
             ptCaseCategoryService.insertPtCaseCategory(ptCaseCategory);
         }
     }

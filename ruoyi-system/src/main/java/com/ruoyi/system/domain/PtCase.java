@@ -44,15 +44,14 @@ public class PtCase extends BaseEntity
         this.ptCategories = ptCategories;
     }
 
-    public List<Long> getCategoryId() {
+    public List<String> getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(List<Long> categoryId) {
+    public void setCategoryId(List<String> categoryId) {
         this.categoryId = categoryId;
     }
-    @JsonSerialize(using = ToStringSerializer.class)
-    private List<Long> categoryId;
+    private List<String> categoryId;
     public void setName(String name) 
     {
         this.name = name;
