@@ -47,7 +47,6 @@ public class PtCategoryController extends BaseController
     @ResponseBody
     public TableDataInfo list(@RequestBody PtCategory ptCategory)
     {
-        startPage();
         List<PtCategory> list = ptCategoryService.selectPtCategoryList(ptCategory);
         return getDataTable(list);
     }

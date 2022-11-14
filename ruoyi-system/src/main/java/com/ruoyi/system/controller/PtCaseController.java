@@ -43,7 +43,6 @@ public class PtCaseController extends BaseController
     @ResponseBody
     public TableDataInfo list(@RequestBody(required = false) PtCase ptCase)
     {
-        startPage();
         List<PtCase> list = ptCaseService.selectPtCaseList(ptCase);
         return getDataTable(list);
     }

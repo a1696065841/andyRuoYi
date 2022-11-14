@@ -1,5 +1,7 @@
 package com.ruoyi.system.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -16,7 +18,7 @@ import java.util.List;
 public class PtCategory extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
-
+    @JsonSerialize(using = ToStringSerializer.class)
     /** $column.columnComment */
     private Long cid;
 

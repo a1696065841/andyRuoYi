@@ -1,5 +1,7 @@
 package com.ruoyi.system.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -30,6 +32,7 @@ public class PtCase extends BaseEntity
     private String picInfo;
 
     /** $column.columnComment */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long caseId;
 
     public List<Long> getCategoryId() {
