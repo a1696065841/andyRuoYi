@@ -98,6 +98,7 @@ public class PtCategoryServiceImpl implements IPtCategoryService {
     }
     public void editBatch(PtCategory ptCategory){
         ptCategoryMapper.deleteByPid(String.valueOf(ptCategory.getCid()));
+        ptCategoryMapper.updatePtCategory(ptCategory);
         for (int i = 0; i < ptCategory.getChildName().size(); i++) {
             String s=ptCategory.getChildName().get(i);
             PtCategory ptCategory2 = new PtCategory();

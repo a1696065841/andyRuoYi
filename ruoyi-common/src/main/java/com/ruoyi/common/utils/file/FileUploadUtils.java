@@ -122,7 +122,8 @@ public class FileUploadUtils
      */
     public static final String extractFilename(MultipartFile file)
     {
-        return StringUtils.format("{}/{}_{}.{}", DateUtils.datePath(),
+        //  /profile/upload/2022/11/14/spec_20221114154141A015.png
+        return StringUtils.format("{}_{}.{}",
                 FilenameUtils.getBaseName(file.getOriginalFilename()), Seq.getId(Seq.uploadSeqType), getExtension(file));
     }
 

@@ -1,34 +1,36 @@
 package com.ruoyi.web.core.config;
- 
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
- 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
- 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                //放行哪些原始域
-                .allowedOriginPatterns("*")
-                .allowedHeaders("*")
-                // 是否发送Cookie
-                .allowCredentials(true)
-                .allowedMethods("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH")
-                .maxAge(3600);
+
+    // 当前跨域请求最大有效时长。我设置的是一天的时间
+    private static final long MAX_AGE = 24 * 60 * 60;
+
+    private CorsConfiguration buildConfig() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*"); //  设置访问源地址
+        corsConfiguration.addAllowedOriginPattern("*"); //  设置访问源地址
+        corsConfiguration.addAllowedHeader("*"); //  设置访问源请求头
+        corsConfiguration.addAllowedMethod("*"); //  设置访问源请求方法
+        corsConfiguration.setMaxAge(MAX_AGE);
+        return corsConfiguration;
     }
- 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("doc.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", buildConfig()); //  对接口配置跨域设置
+        return new CorsFilter(source);
     }
+
 }

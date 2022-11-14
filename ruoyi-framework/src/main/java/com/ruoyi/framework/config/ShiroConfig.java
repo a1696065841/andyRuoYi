@@ -296,6 +296,7 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/common/**", "anon");
         filterChainDefinitionMap.put("/system/caseCategory/**", "anon");
         filterChainDefinitionMap.put("/system/category/**", "anon");
+        filterChainDefinitionMap.put("/**", "anon");
         // 注册相关
         filterChainDefinitionMap.put("/register", "anon,captchaValidate");
         // 系统权限列表
