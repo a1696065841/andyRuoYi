@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.uuid.IdUtils;
 import com.ruoyi.common.utils.uuid.UIDUtil;
 import com.ruoyi.system.domain.PtCaseCategory;
@@ -43,20 +44,27 @@ public class PtCaseServiceImpl implements IPtCaseService {
     public PtCase selectPtCaseByCaseId(PtCase ptCase) {
         PtCaseCategory ptCaseCategory = new PtCaseCategory();
         ptCaseCategory.setCaseId(ptCase.getCaseId());
+        //删除空元素
+        if (ptCase.getCategoryId()!=null){
+            List<String> collect = ptCase.getCategoryId().stream().filter(e -> StringUtils.isNotEmpty(e)).collect(Collectors.toList());
+            ptCase.setCategoryId(collect);
+        }
         List<PtCaseCategory> ptCaseCategories = ptCaseCategoryService.selectPtCaseCategoryList(ptCaseCategory);
         List<Long> collect = ptCaseCategories.stream().map(PtCaseCategory::getCategoryId).collect(Collectors.toList());
         PtCase ptCase2 = ptCaseMapper.selectPtCaseByCaseId(ptCase.getCaseId());
         if (ptCase2==null){
             return null;
         }
-
+        List<PtCategory> ptCategories = new ArrayList<>();
         List<String> collect2 = new ArrayList<>();
         for (Long aLong : collect) {
             PtCategory ptCategory = ptCategoryMapper.selectPtCategoryByCid(aLong);
             if (ptCategory!=null){
+                ptCategories.add(ptCategory);
                 collect2.add(String.valueOf(aLong));
             }
         }
+        ptCase2.setPtCategories(ptCategories);
         ptCase2.setCategoryId(collect2);
         return ptCase2;
     }
@@ -70,6 +78,11 @@ public class PtCaseServiceImpl implements IPtCaseService {
     @Override
     public List<PtCase> selectPtCaseList(PtCase ptCase) {
         List<PtCase> ptCases = ptCaseMapper.selectPtCaseList(ptCase);
+        //删除空元素
+        if (ptCase.getCategoryId()!=null){
+            List<String> collect = ptCase.getCategoryId().stream().filter(e -> StringUtils.isNotEmpty(e)).collect(Collectors.toList());
+            ptCase.setCategoryId(collect);
+        }
         for (PtCase aCase : ptCases) {
             PtCaseCategory ptCaseCategory = new PtCaseCategory();
             ptCaseCategory.setCaseId(aCase.getCaseId());
