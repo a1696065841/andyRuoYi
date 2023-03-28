@@ -14,10 +14,11 @@ public class MimeTypeUtils
     public static final String IMAGE_JPEG = "image/jpeg";
 
     public static final String IMAGE_BMP = "image/bmp";
+    public static final String IMAGE_WEBP = "image/WEBP";
 
     public static final String IMAGE_GIF = "image/gif";
 
-    public static final String[] IMAGE_EXTENSION = { "bmp", "gif", "jpg", "jpeg", "png" };
+    public static final String[] IMAGE_EXTENSION = { "bmp", "gif", "jpg", "jpeg", "png","WEBP" };
 
     public static final String[] FLASH_EXTENSION = { "swf", "flv" };
 
@@ -28,7 +29,7 @@ public class MimeTypeUtils
 
     public static final String[] DEFAULT_ALLOWED_EXTENSION = {
             // 图片
-            "bmp", "gif", "jpg", "jpeg", "png",
+            "bmp", "gif", "jpg", "jpeg", "png","WEBP",
             // word excel powerpoint
             "doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt",
             // 压缩文件
@@ -52,6 +53,8 @@ public class MimeTypeUtils
                 return "bmp";
             case IMAGE_GIF:
                 return "gif";
+            case IMAGE_WEBP:
+                return "WEBP";
             default:
                 return "";
         }

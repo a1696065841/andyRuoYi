@@ -36,6 +36,16 @@ public class PtCase extends BaseEntity
     private Long caseId;
     List<PtCategory> ptCategories;
 
+    List<PtCaseModel> ptCaseModels;
+
+    public List<PtCaseModel> getPtCaseModels() {
+        return ptCaseModels;
+    }
+
+    public void setPtCaseModels(List<PtCaseModel> ptCaseModels) {
+        this.ptCaseModels = ptCaseModels;
+    }
+
     public List<PtCategory> getPtCategories() {
         return ptCategories;
     }
@@ -95,6 +105,7 @@ public class PtCase extends BaseEntity
             .append("name", getName())
             .append("describe", getDescribe())
             .append("picInfo", getPicInfo())
+            .append("caseId", getCaseId())
             .append("caseId", getCaseId())
             .toString();
     }

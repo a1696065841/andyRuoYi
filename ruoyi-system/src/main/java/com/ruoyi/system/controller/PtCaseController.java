@@ -102,11 +102,10 @@ public class PtCaseController extends BaseController
      * 删除【请填写功能名称】
      */
     @Log(title = "【请填写功能名称】", businessType = BusinessType.DELETE)
-    @PostMapping( "/remove")
+    @GetMapping( "/remove")
     @ResponseBody
-    public AjaxResult remove(@RequestBody(required = false) PtCase ptCase )
+    public AjaxResult remove(@RequestParam(required = false) String ids )
     {
-        String ids = ptCase.getIds();
         return toAjax(ptCaseService.deletePtCaseByCaseIds(ids));
     }
 }

@@ -38,6 +38,12 @@
         where a.case_id = #{caseId} 	GROUP BY a.case_id
     </select>
 
+<!--    根据案例列表id查询案列model下级-->
+    <select id="selectPtCaseModelByCaseId" parameterType="Long" resultType="com.ruoyi.system.domain.PtCaseModel">
+         select m.id ,m.pic_info picInfo, m. width ,  m.length length ,m.`describe` ,m.pt_case_id ptCaseId
+        from pt_case_model m where pt_case_id = #{ptCaseId}
+    </select>
+
     <insert id="insertPtCase" parameterType="PtCase">
         insert into pt_case
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -53,6 +59,12 @@
             <if test="caseId != null">#{caseId},</if>
         </trim>
     </insert>
+    <insert id="insertPtCaseModels">
+        insert into pt_case_model (pic_info, width, length, `describe`, pt_case_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.picInfo}, #{item.width}, #{item.length}, #{item.describe}, #{item.ptCaseId} )
+        </foreach>
+    </insert>
 
     <update id="updatePtCase" parameterType="PtCase">
         update pt_case
@@ -62,6 +74,15 @@
             <if test="picInfo != null">picInfo = #{picInfo},</if>
         </trim>
         where case_id = #{caseId}
+    </update>
+
+    <update id="updatePtCaseModel" parameterType="PtCaseModel">
+        update pt_case_model set
+            `pic_info` = #{picInfo},
+            `width` = #{width},
+            `length` = #{length},
+            `describe` = #{describe}
+        where id = #{id}
     </update>
 
     <delete id="deletePtCaseByCaseId" parameterType="Integer">
@@ -75,6 +96,11 @@
         <foreach item="caseId" collection="array" open="(" separator="," close=")">
             #{caseId}
         </foreach>
+    </delete>
+
+    <delete id="deleteModelByCaseId" parameterType="String">
+        delete from pt_case_model where pt_case_id =#{caseIds}
+
     </delete>
 
 </mapper>

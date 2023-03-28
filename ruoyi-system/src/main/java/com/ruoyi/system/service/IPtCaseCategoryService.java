@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.PtCaseCategory;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 【请填写功能名称】Service接口
@@ -9,6 +10,7 @@ import com.ruoyi.system.domain.PtCaseCategory;
  * @author ruoyi
  * @date 2022-11-07
  */
+@Transactional
 public interface IPtCaseCategoryService 
 {
     /**

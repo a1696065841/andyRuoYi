@@ -8,6 +8,7 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.uuid.IdUtils;
 import com.ruoyi.common.utils.uuid.UIDUtil;
 import com.ruoyi.system.domain.PtCaseCategory;
+import com.ruoyi.system.domain.PtCaseModel;
 import com.ruoyi.system.domain.PtCategory;
 import com.ruoyi.system.mapper.PtCategoryMapper;
 import com.ruoyi.system.service.IPtCaseCategoryService;
@@ -99,6 +100,8 @@ public class PtCaseServiceImpl implements IPtCaseService {
             }
             aCase.setCategoryId(collect2);
             aCase.setPtCategories(ptCategories);
+            //添加案例下级
+            aCase.setPtCaseModels(ptCaseMapper.selectPtCaseModelByCaseId(aCase.getCaseId()));
         }
         return ptCases;
     }
@@ -111,9 +114,18 @@ public class PtCaseServiceImpl implements IPtCaseService {
      */
     @Override
     public int insertPtCase(PtCase ptCase) {
-
         ptCase.setCaseId(UIDUtil.nextId());
         int i = ptCaseMapper.insertPtCase(ptCase);
+        //获取案例下级模块
+        List<PtCaseModel> ptCaseModels = ptCase.getPtCaseModels();
+        if(ptCaseModels!=null && ptCaseModels.size()>0){
+            //设置关联
+            ptCaseModels.stream().forEach(item ->{
+                item.setPtCaseId(ptCase.getCaseId());
+            });
+            //进行案例下级添加操作
+            ptCaseMapper.insertPtCaseModels(ptCaseModels);
+        }
         insertPtCaseCategory(ptCase);
         return i;
     }
@@ -130,7 +142,12 @@ public class PtCaseServiceImpl implements IPtCaseService {
             ptCaseCategoryService.deleteByCaseId(ptCase.getCaseId());
             insertPtCaseCategory(ptCase);
         }
-
+        if (ptCase.getPtCaseModels()!=null && ptCase.getPtCaseModels().size()>0){
+            //批量修改案例下级模块
+            for (PtCaseModel ptCaseModel : ptCase.getPtCaseModels()) {
+                ptCaseMapper.updatePtCaseModel(ptCaseModel);
+            }
+        }
         return ptCaseMapper.updatePtCase(ptCase);
     }
 
@@ -154,6 +171,8 @@ public class PtCaseServiceImpl implements IPtCaseService {
         for (String s : Convert.toStrArray(caseIds)) {
             ptCaseCategoryService.deleteByCaseId(Long.parseLong(s));
         }
+        //删除案例下级模块
+        ptCaseMapper.deleteModelByCaseId(caseIds);
         return ptCaseMapper.deletePtCaseByCaseIds(Convert.toStrArray(caseIds));
     }
 
